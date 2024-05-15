@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BlogQueryResult } from "./types";
+import { BlogItem } from "./types";
 import { createClient } from "contentful";
 
 if (!process.env.SPACE_ID || !process.env.ACCESS_TOKEN) {
@@ -10,9 +10,12 @@ const client = createClient({
   accessToken: process.env.ACCESS_TOKEN,
 });
 
-const getBlogEntries = async (): Promise<BlogQueryResult> => {
+const getBlogEntries = async (): Promise<BlogItem[]> => {
   const entries = await client.getEntries({ content_type: "blog" });
-  return entries;
+  
+  const blogItemsString = JSON.stringify(entries.items);
+  const parsedblogItems = JSON.parse(blogItemsString);
+  return parsedblogItems; 
 };
 
 export default async function Home() {
@@ -20,7 +23,7 @@ export default async function Home() {
   console.log("Home -> blogEntries", blogEntries);
   return (
     <main className="flex min-h-screen flex-col p-24 gap-y-8">
-      {blogEntries.items.map((singlePost) => {
+      {blogEntries.map((singlePost) => {
         const { slug, title, date } = singlePost.fields;
         return (
           <div key={slug}>
