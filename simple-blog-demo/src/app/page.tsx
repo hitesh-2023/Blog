@@ -13,6 +13,8 @@ const client = createClient({
 
 const getBlogEntries = async (): Promise<BlogItem[]> => {
   const entries = await client.getEntries({ content_type: "blog" });
+
+  // Return BlogItems as BlogItem[] type
   const blogItems = entries.items.map((item) => { return getBlogItem(item.fields); });
   return blogItems;
 };

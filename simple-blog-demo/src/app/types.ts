@@ -13,7 +13,6 @@ export type BlogItem = {
   }
 }
 
-
 export type ImageData = {
   fields: {
     file: {
@@ -32,4 +31,10 @@ export type BlogPageProps = {
   params: {
     slug: string;
   };
+}
+
+export type AboutContent = {
+  fields: {
+    content: Document;
+  }
 }
